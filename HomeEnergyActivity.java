@@ -75,7 +75,7 @@ public class HomeEnergyActivity extends CarbonSource implements CarbonCalculable
     @Override
     public void showTip() {
         System.out.println("  Tip: Switch to LED bulbs — they use up to 80% less energy than traditional ones.");
-        if ("server".equals(energySource)) {
+        if ("solar".equals(energySource)) {
             System.out.println("  Tip: Choose renewable energy — switch to a green energy plan or install solar panels if possible.");
         }
     }
