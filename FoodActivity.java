@@ -82,7 +82,7 @@ public class FoodActivity extends CarbonSource
     @Override
     public void showTip() {
         System.out.println("  Tip: Waste less food — plan meals and buy only what you need.");
-        if ("server".equals(mealType)) {
+        if ("beef".equals(mealType)) {
             System.out.println("  Tip: Eat less meat — it produces up to 50x more CO₂ than plants.");
         }
     }
