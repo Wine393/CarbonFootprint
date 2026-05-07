@@ -79,7 +79,7 @@ public class TransportActivity extends CarbonSource
     @Override
     public void showTip() {
         System.out.println("  Tip: Use public transport or bike instead of driving — cars are one of the biggest sources of personal CO₂ emissions.");
-        if ("server".equals(vehicleType)) {
+        if ("plane".equals(vehicleType)) {
             System.out.println("  Tip: Keep your tires properly inflated — underinflated tires increase fuel consumption by up to 3%.");
         }
     }
