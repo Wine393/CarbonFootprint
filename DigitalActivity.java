@@ -2,8 +2,8 @@
  * Class: DigitalActivity
  * Extends CarbonSource, implements CarbonCalculable + Reportable.
  *
- * Fields  : deviceType, hoursPerDay, days
- * Formula : hoursPerDay x days x factor  → kg CO2
+ * Fields : deviceType, hoursPerDay, days
+ * Formula : hoursPerDay x days x factor → kg CO2
  * Types   : laptop | desktop | smartphone | tablet | tv | server
  */
 public class DigitalActivity extends CarbonSource
@@ -24,7 +24,8 @@ public class DigitalActivity extends CarbonSource
     public DigitalActivity(String deviceType, double hoursPerDay, int days)
             throws InvalidActivityTypeException, NegativeValueException {
         if (hoursPerDay < 0) throw new NegativeValueException("Hours cannot be negative");
-        if (days       < 0) throw new NegativeValueException("Days cannot be negative");
+        if (days < 0)        throw new NegativeValueException("Days cannot be negative");
+
         this.activityName = "Digital";
         this.deviceType   = deviceType.toLowerCase().trim();
         this.hoursPerDay  = hoursPerDay;
@@ -54,22 +55,22 @@ public class DigitalActivity extends CarbonSource
     @Override
     public void showEmissions() {
         try {
-            System.out.printf("  [Digital] %-11s %.1f hrs/day x %d days => %.4f kg CO2%n",
+            System.out.printf(" [Digital]  %-11s | %.1f hrs/day | %d days   => %.4f kg CO2%n",
                 deviceType, hoursPerDay, days, calculateEmissions());
         } catch (NegativeValueException e) { System.out.println(e.getMessage()); }
     }
 
     @Override
     public void showTip() {
-        System.out.println("  Tip: Enable power-saving mode and unplug chargers when not in use.");
+        System.out.println(" Tip: Enable power-saving mode and unplug chargers when not in use.");
         if ("server".equals(deviceType))
-            System.out.println("  Tip: A server emits 4x more than a desktop. Use cloud sparingly.");
+            System.out.println(" Tip: A server emits 4x more than a desktop. Use cloud sparingly.");
     }
 
     @Override
     public String getSummary() {
         try {
-            return String.format("Digital [%s, %.1fh x %d days]: %.4f kg CO2",
+            return String.format("Digital | %-10s | %.1f hrs x %d days | %.4f kg CO2",
                 deviceType, hoursPerDay, days, calculateEmissions());
         } catch (NegativeValueException e) { return "Digital [error]"; }
     }
