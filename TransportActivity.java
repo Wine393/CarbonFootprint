@@ -69,8 +69,8 @@ public class TransportActivity extends CarbonSource
     @Override
     public void showEmissions() {
         try {
-            System.out.printf("  [Transport] %-11s %.1f hrs/day x %d days => %.4f kg CO2%n",
-                    vehicleType, distanceKM, passengers, calculateEmissions());
+            System.out.printf(" [Transport]  %-11s | %6.1f km | %d pax => %.4f kg CO2%n",
+                vehicleType, distanceKM, passengers, calculateEmissions());
         } catch (NegativeValueException e) {
             System.out.println(e.getMessage());
         }
