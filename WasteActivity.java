@@ -19,12 +19,12 @@ public class WasteActivity extends CarbonSource
     private static final double PLAS_F = 1.50;
     private static final double PAP_F  = 0.91;
     private static final double ELEC_F = 20.0;
-
     private static final double RECYCLE_REDUCTION = 0.4; // 60% saved
 
     public WasteActivity(String wasteType, double weightKg, boolean recycled)
             throws InvalidActivityTypeException, NegativeValueException {
         if (weightKg < 0) throw new NegativeValueException("Weight cannot be negative");
+
         this.activityName = "Waste";
         this.wasteType    = wasteType.toLowerCase().trim();
         this.weightKg     = weightKg;
@@ -54,22 +54,22 @@ public class WasteActivity extends CarbonSource
     @Override
     public void showEmissions() {
         try {
-            System.out.printf("  [Waste] %-10s %.1f kg  recycled=%-5b => %.4f kg CO2%n",
+            System.out.printf(" [Waste] %-10s | %.1f kg | recycled=%-5b => %.4f kg CO2%n",
                 wasteType, weightKg, recycled, calculateEmissions());
         } catch (NegativeValueException e) { System.out.println(e.getMessage()); }
     }
 
     @Override
     public void showTip() {
-        System.out.println("  Tip: Recycling reduces waste emissions by up to 60%.");
+        System.out.println(" Tip: Recycling reduces waste emissions by up to 60%.");
         if ("electronic".equals(wasteType))
-            System.out.println("  Tip: E-waste is 35x worse than plastic. Always use certified e-recyclers.");
+            System.out.println(" Tip: E-waste is 35x worse than plastic. Use certified e-recyclers.");
     }
 
     @Override
     public String getSummary() {
         try {
-            return String.format("Waste [%s, %.1fkg, recycled=%b]: %.4f kg CO2",
+            return String.format("Waste | %-10s | %.1f kg | recycled=%b | %.4f kg CO2",
                 wasteType, weightKg, recycled, calculateEmissions());
         } catch (NegativeValueException e) { return "Waste [error]"; }
     }
