@@ -1,18 +1,17 @@
-
 /**
  * Class: FoodActivity
  * Extends CarbonSource, implements CarbonCalculable + Reportable.
  *
- * Fields  : mealType, servingsPerWeek, weeks
- * Formula : servingsPerWeek x weeks x factor  → kg CO2
+ * Fields : mealType, servingsPerWeek, weeks
+ * Formula : servingsPerWeek x weeks x factor → kg CO2
  * Types   : beef | pork | chicken | fish | vegetarian | vegan
  */
 public class FoodActivity extends CarbonSource
         implements CarbonCalculable, Reportable {
 
     private String mealType;
-    private int servingsPerWeek;
-    private int weeks;
+    private int    servingsPerWeek;
+    private int    weeks;
 
     // Emission factors (kg CO2 per serving)
     private static final double BEEF_F = 6.61;
@@ -24,43 +23,28 @@ public class FoodActivity extends CarbonSource
 
     public FoodActivity(String mealType, int servingsPerWeek, int weeks)
             throws InvalidActivityTypeException, NegativeValueException {
-        if (servingsPerWeek < 0) {
-            throw new NegativeValueException("servingsPerWeek cannot be negative");
-        }
-        if (weeks < 0) {
-            throw new NegativeValueException("weeks cannot be negative");
-        }
-        this.activityName = "Food";
-        this.mealType = mealType.toLowerCase().trim();
+        if (servingsPerWeek < 0) throw new NegativeValueException("servingsPerWeek cannot be negative");
+        if (weeks < 0)           throw new NegativeValueException("weeks cannot be negative");
+
+        this.activityName    = "Food";
+        this.mealType        = mealType.toLowerCase().trim();
         this.servingsPerWeek = servingsPerWeek;
-        this.weeks = weeks;
+        this.weeks           = weeks;
         setFactor();
     }
 
     private void setFactor() throws InvalidActivityTypeException {
         switch (mealType) {
-            case "beef":
-                emissionFactor = BEEF_F;
-                break;
-            case "pork":
-                emissionFactor = PORK_F;
-                break;
-            case "chicken":
-                emissionFactor = CHKN_F;
-                break;
-            case "fish":
-                emissionFactor = FISH_F;
-                break;
-            case "vegetable":
-                emissionFactor = VEGI_F;
-                break;
-            case "vegan":
-                emissionFactor = VGAN_F;
-                break;
+            case "beef":        emissionFactor = BEEF_F; break;
+            case "pork":        emissionFactor = PORK_F; break;
+            case "chicken":     emissionFactor = CHKN_F; break;
+            case "fish":        emissionFactor = FISH_F; break;
+            case "vegetarian":  emissionFactor = VEGI_F; break;  // FIXED: was "vegetable"
+            case "vegan":       emissionFactor = VGAN_F; break;
             default:
                 throw new InvalidActivityTypeException(
-                        "Unknown Food: " + mealType
-                        + ". Valid: beef, pork, chicken, fish, vegetarian, vegan");
+                    "Unknown food: " + mealType
+                    + ". Valid: beef, pork, chicken, fish, vegetarian, vegan");
         }
     }
 
@@ -72,8 +56,8 @@ public class FoodActivity extends CarbonSource
     @Override
     public void showEmissions() {
         try {
-            System.out.printf("  [Food] %-11s %.1f hrs/day x %d days => %.4f kg CO2%n",
-                    mealType, servingsPerWeek, weeks, calculateEmissions());
+            System.out.printf(" [Food] %-11s | %d srv/wk | %d weeks  => %.4f kg CO2%n",
+                mealType, servingsPerWeek, weeks, calculateEmissions());  
         } catch (NegativeValueException e) {
             System.out.println(e.getMessage());
         }
@@ -81,20 +65,19 @@ public class FoodActivity extends CarbonSource
 
     @Override
     public void showTip() {
-        System.out.println("  Tip: Waste less food — plan meals and buy only what you need.");
+        System.out.println(" Tip: Reduce food waste — plan meals and buy only what you need.");
         if ("beef".equals(mealType)) {
-            System.out.println("  Tip: Eat less meat — it produces up to 50x more CO₂ than plants.");
+            System.out.println(" Tip: Beef produces up to 50x more CO₂ than vegetables per serving.");
         }
     }
 
     @Override
     public String getSummary() {
         try {
-            return String.format("Food [%s, %.1fh x %d days]: %.4f kg CO2",
-                    mealType, servingsPerWeek, weeks, calculateEmissions());
+            return String.format("Food | %-10s | %d srv x %d wks  | %.4f kg CO2",
+                mealType, servingsPerWeek, weeks, calculateEmissions());
         } catch (NegativeValueException e) {
             return "Food [error]";
         }
     }
-
 }
